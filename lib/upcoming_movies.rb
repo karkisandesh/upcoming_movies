@@ -1,5 +1,7 @@
 require_relative "upcoming_movies/version"
 require_relative "upcoming_movies/cli"
+require_relative "upcoming_movies/new_movies"
+require_relative "upcoming_movies/scraper"
 
 module UpcomingMovies
   class Error < StandardError; end
