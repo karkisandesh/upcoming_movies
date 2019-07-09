@@ -4,6 +4,7 @@ require_relative "upcoming_movies/new_movies"
 require_relative "upcoming_movies/scraper"
 
 require 'pry'
+require 'nokogiri'
 require 'open-uri'
 
 module UpcomingMovies

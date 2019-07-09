@@ -4,6 +4,11 @@ class UpcomingMovies::New_movies
 
   @@all = []
 
+  def initialize
+    UpcomingMovies::Scraper.scrape_movies
+    @@all << self
+  end
+
   def self.all
     @@all
   end

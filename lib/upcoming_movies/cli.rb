@@ -40,7 +40,7 @@ class UpcomingMovies::CLI
 
   def list_movie_details
     puts ""
-    puts "Full movie details"
+    UpcomingMovies::New_movies.new
   end
 
   def goodbye
