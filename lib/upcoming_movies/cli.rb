@@ -15,14 +15,12 @@ class UpcomingMovies::CLI
     end
   end
 
-  def get_movies
-    @movies = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-  end
 
   def list_movies
-      get_movies.each.with_index(1) do |index, movie|
-        puts "#{index}. #{movie}"
-      end
+    get_movies = UpcomingMovies::Scraper.scrape_movies
+      # get_movies.each.with_index(1) do |index, movie|
+      #   puts "#{index}. #{movie}"
+      # end
   end
 
   def select_movies
