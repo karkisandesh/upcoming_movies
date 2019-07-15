@@ -2,4 +2,5 @@
 
 require_relative '../lib/upcoming_movies'
 
-UpcomingMovies::CLI.new.call
+# UpcomingMovies::CLI.new.call
+UpcomingMovies::Scraper.new.open_in_browser

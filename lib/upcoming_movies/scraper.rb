@@ -1,7 +1,7 @@
 class UpcomingMovies::Scraper
 
 
-  def self.scrape_movies
+  def scrape_movies
     doc = Nokogiri::HTML(open("https://www.fandango.com/"))
 
     movies = doc.css("ul.inline-items.panel.footer-coming-soon--list a").text.gsub("  ", "").strip.split("\n\n")
@@ -12,5 +12,14 @@ class UpcomingMovies::Scraper
     end
 
   end
+
+  def self.scrape_details
+    doc = Nokogiri::HTML(open("https://www.fandango.com/"))
+    urls = doc.css(".footer-coming-soon--info-block.poster-thumb-size-s a.heading-style-1.footer-coming-soon--heading").collect do |anchor|
+       anchor["href"]
+    end
+  end
+
+
 
 end
