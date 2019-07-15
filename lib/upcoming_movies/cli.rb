@@ -7,7 +7,7 @@ class UpcomingMovies::CLI
     puts "Would you like to view the upcoming movies? y/n"
     input = gets.strip.downcase
 
-    if input == 'y'
+    if ["y", "yes"].include?(input)
         list_movies
         select_movies
     else
@@ -17,10 +17,11 @@ class UpcomingMovies::CLI
 
 
   def list_movies
-    get_movies = UpcomingMovies::Scraper.scrape_movies
-      # get_movies.each.with_index(1) do |index, movie|
-      #   puts "#{index}. #{movie}"
-      # end
+    get_movies = UpcomingMovies::Scraper.new.scrape_movies
+    puts ""
+      get_movies.each.with_index(1) do |movie, index|
+        puts "#{index}. #{movie}"
+      end
   end
 
   def select_movies
@@ -28,17 +29,13 @@ class UpcomingMovies::CLI
     puts "Please select a movie for details (1-8)."
     input = gets.strip
     if input.to_i > 0 && input.to_i <= 8
-        list_movie_details
+        UpcomingMovies::Scraper.new.find_by(input)
+        puts UpcomingMovies::New_movies.all
       else
         puts "Please select a movie for details (1-8) or exit."
         input = gets.strip
         goodbye if input == "exit"
       end
-  end
-
-  def list_movie_details
-    puts ""
-    UpcomingMovies::New_movies.new
   end
 
   def goodbye

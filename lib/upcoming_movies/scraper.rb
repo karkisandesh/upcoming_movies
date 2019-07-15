@@ -15,10 +15,9 @@ class UpcomingMovies::Scraper
 
     movies = doc.css("ul.inline-items.panel.footer-coming-soon--list a").text.gsub("  ", "").strip.split("\n\n")
 
-    movies.each.with_index(1) do |movie, index|
-      puts "#{index}. #{movie}"
-      binding.pry
-    end
+    # movies.each.with_index(1) do |movie, index|
+    #   puts "#{index}. #{movie}"
+    # end
 
   end
 
@@ -29,20 +28,19 @@ class UpcomingMovies::Scraper
     end
   end
 
-  def self.scrape_details(index = "1")
+  def find_by(input)
+    scrape_details(input)
+  end
+
+  def scrape_details(index)
    urls = UpcomingMovies::Scraper.new.scrape_hrefs
    doc = Nokogiri::HTML(open("#{urls[index.to_i - 1]}"))
 
-   doc.css("ul.movie-details__detail").collect do |details|
-     binding.pry
-    #  new_movie = UpcomingMovies::New_movies.new
-     title = details.search("h1.subnav__title").text.strip
+    new_movie = UpcomingMovies::New_movies.new
 
-     title = details.search("li.movie-details__release-date").text.strip
-     binding.pry
-   end
-  end
-
-
-
+    new_movie.title = doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first.gsub(" (2019)", "")
+    new_movie.release_date = details.search("ul.movie-details__detail li.movie-details__release-date").text.strip
+    new_movie.synopsis = doc.search("p.mop__synopsis-content").text.strip
+    new_movie.save
+    end
 end

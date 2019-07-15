@@ -1,13 +1,8 @@
 class UpcomingMovies::New_movies
 
-  attr_accessor :title, :release_date, :length_of_movie, :synopsis, :full_synopsis
+  attr_accessor :title, :release_date, :synopsis
 
   @@all = []
-
-  def initialize
-    UpcomingMovies::Scraper.scrape_movies
-    @@all << self
-  end
 
   def self.all
     @@all
