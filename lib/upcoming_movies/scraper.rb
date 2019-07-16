@@ -28,18 +28,14 @@ class UpcomingMovies::Scraper
     end
   end
 
-  def find_by(input)
-    scrape_details(input)
-  end
-
   def scrape_details(index)
    urls = UpcomingMovies::Scraper.new.scrape_hrefs
    doc = Nokogiri::HTML(open("#{urls[index.to_i - 1]}"))
 
     new_movie = UpcomingMovies::New_movies.new
 
-    new_movie.title = doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first.gsub(" (2019)", "")
-    new_movie.release_date = details.search("ul.movie-details__detail li.movie-details__release-date").text.strip
+    new_movie.title = doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first
+    new_movie.release_date = doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip
     new_movie.synopsis = doc.search("p.mop__synopsis-content").text.strip
     new_movie.save
     end

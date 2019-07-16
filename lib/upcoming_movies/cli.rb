@@ -15,27 +15,27 @@ class UpcomingMovies::CLI
     end
   end
 
-
   def list_movies
-    get_movies = UpcomingMovies::Scraper.new.scrape_movies
+    @get_movies = UpcomingMovies::Scraper.new.scrape_movies
     puts ""
-      get_movies.each.with_index(1) do |movie, index|
+      @get_movies.each.with_index(1) do |movie, index|
         puts "#{index}. #{movie}"
       end
   end
 
   def select_movies
     puts ""
-    puts "Please select a movie for details (1-8)."
+    puts "Please select a movie for details (1-8) or exit."
     input = gets.strip
-    if input.to_i > 0 && input.to_i <= 8
-        UpcomingMovies::Scraper.new.find_by(input)
-        puts UpcomingMovies::New_movies.all
-      else
+    puts ""
+
+    if input.to_i > 0 && input.to_i <= @get_movies.size
+        UpcomingMovies::New_movies.movie_overview(input)
+    else
         puts "Please select a movie for details (1-8) or exit."
         input = gets.strip
         goodbye if input == "exit"
-      end
+    end
   end
 
   def goodbye
