@@ -10,8 +10,8 @@ class UpcomingMovies::CLI
     if ["y", "yes"].include?(input.downcase)
         list_movies
         select_movies
-    elsif input != "exit"
-      call
+    elsif ["n", "no"].include?(input.downcase)
+      goodbye
     else
       goodbye
     end
@@ -33,10 +33,14 @@ class UpcomingMovies::CLI
 
     if input.to_i > 0 && input.to_i <= @get_movies.size
       movie_overview(input)
-    else
+    elsif input != "exit"
         puts "Please select a movie for details (1-8) or exit."
         input = gets.strip
-        goodbye if input == "exit"
+          if input != "exit"
+            select_movies
+          end
+      else
+        goodbye
     end
   end
 
@@ -55,5 +59,4 @@ class UpcomingMovies::CLI
     puts ""
     puts "Thank You."
   end
-
 end
