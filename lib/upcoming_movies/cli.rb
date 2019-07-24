@@ -1,6 +1,8 @@
 class UpcomingMovies::CLI
 
   def call
+    UpcomingMovies::Scraper.new.scrape_movies
+
     puts "----------------------------******-----------------------------"
     puts "Welcome to the Upcoming Movies event!"
     puts ""
@@ -18,10 +20,14 @@ class UpcomingMovies::CLI
   end
 
   def list_movies
-    @get_movies = UpcomingMovies::Scraper.new.scrape_movies
+    title = UpcomingMovies::New_movies.new.title_name
+    binding.pry
+    @get_movies = title.title_name
     puts ""
       @get_movies.each.with_index(1) do |movie, index|
         puts "#{index}. #{movie}"
+        binding.pry
+
       end
   end
 

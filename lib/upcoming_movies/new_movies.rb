@@ -8,10 +8,13 @@ class UpcomingMovies::New_movies
     @@all
   end
 
-  def initialize(attributes)
+  def self.details(attributes)
     attributes.each do |key, value|
       self.send("#{key}=", value)
     end
+  end
+
+  def save
     @@all << self
   end
 end

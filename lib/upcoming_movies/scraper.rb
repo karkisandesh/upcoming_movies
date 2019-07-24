@@ -3,7 +3,7 @@ class UpcomingMovies::Scraper
   def scrape_movies
     doc = Nokogiri::HTML(open("https://www.fandango.com/"))
 
-    movies = doc.css("ul.inline-items.panel.footer-coming-soon--list a").text.gsub("  ", "").strip.split("\n\n")
+    title = doc.css("li.footer-coming-soon--list-item a").text.gsub("  ", "").strip.split("\n\n")
   end
 
   def scrape_hrefs
@@ -17,10 +17,10 @@ class UpcomingMovies::Scraper
         urls = UpcomingMovies::Scraper.new.scrape_hrefs
         doc = Nokogiri::HTML(open("#{urls[index.to_i - 1]}"))
 
-        UpcomingMovies::New_movies.new({
+        UpcomingMovies::New_movies.details({
           title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
           release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
           synopsis: doc.search("p.mop__synopsis-content").text.strip
           })
       end
-end
+    end
