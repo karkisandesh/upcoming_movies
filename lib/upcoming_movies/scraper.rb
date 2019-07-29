@@ -3,18 +3,26 @@ class UpcomingMovies::Scraper
   def scrape_movies
     doc = Nokogiri::HTML(open("https://www.fandango.com/"))
 
-    title = doc.css("li.footer-coming-soon--list-item a").text.gsub("  ", "").strip.split("\n\n")
-  end
 
-  def scrape_hrefs
-    doc = Nokogiri::HTML(open("https://www.fandango.com/"))
-    urls = doc.css(".footer-coming-soon--info-block.poster-thumb-size-s a.heading-style-1.footer-coming-soon--heading").collect do |anchor|
-       anchor["href"]
+    movies = doc.css("a.footer-coming-soon--heading")
+    # .text.gsub("  ", "").strip.split("\n\n")
+    movies.each do |movie|
+      title = movie.text
+      href = movie.attr("href")
+      UpcomingMovies::New_movies.new(title, href)
     end
   end
 
+  # def scrape_hrefs
+  #   doc = Nokogiri::HTML(open("https://www.fandango.com/"))
+  #   urls = doc.css(".footer-coming-soon--info-block.poster-thumb-size-s a.heading-style-1.footer-coming-soon--heading").collect do |anchor|
+  #      anchor["href"]
+  #   end
+  # end
+
     def scrape_details(index)
-        urls = UpcomingMovies::Scraper.new.scrape_hrefs
+        urls = UpcomingMovies::Scraper.new.scrape_movies
+        binding.pry
         doc = Nokogiri::HTML(open("#{urls[index.to_i - 1]}"))
 
         UpcomingMovies::New_movies.details({

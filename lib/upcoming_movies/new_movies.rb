@@ -1,8 +1,15 @@
 class UpcomingMovies::New_movies
 
-  attr_accessor :title, :release_date, :synopsis
+  attr_accessor :title, :release_date, :synopsis, :title_name, :href
 
   @@all = []
+
+  def initialize(title_name, href)
+    @title_name = title_name
+    @href = href
+    save
+    binding.pry
+  end
 
   def self.all
     @@all
