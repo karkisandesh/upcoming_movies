@@ -20,14 +20,10 @@ class UpcomingMovies::CLI
   end
 
   def list_movies
-    title = UpcomingMovies::New_movies.new.title_name
-    binding.pry
-    @get_movies = title.title_name
-    puts ""
-      @get_movies.each.with_index(1) do |movie, index|
-        puts "#{index}. #{movie}"
-        binding.pry
+    @movies = UpcomingMovies::New_movies.all
 
+    @movies.each.with_index(1) do |movie, index|
+        puts "#{index}. #{movie.title_name}"
       end
   end
 
@@ -37,7 +33,7 @@ class UpcomingMovies::CLI
     input = gets.strip
     puts ""
 
-    if input.to_i > 0 && input.to_i <= @get_movies.size
+    if input.to_i > 0 && input.to_i <= @movies.count
       movie_overview(input)
     elsif input != "exit"
         puts "Please select a movie for details (1-8) or exit."
@@ -52,12 +48,12 @@ class UpcomingMovies::CLI
 
   def movie_overview(input)
     UpcomingMovies::Scraper.new.scrape_details(input)
-        UpcomingMovies::New_movies.all.each do |movie_data|
+        UpcomingMovies::Movie_data.all.each do |movie_data|
           puts ""
-          #  binding.binding.pry
           puts movie_data.title
           puts movie_data.release_date
           puts movie_data.synopsis
+
       end
   end
 

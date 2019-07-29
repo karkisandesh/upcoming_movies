@@ -21,14 +21,27 @@ class UpcomingMovies::Scraper
   # end
 
     def scrape_details(index)
-        urls = UpcomingMovies::Scraper.new.scrape_movies
-        binding.pry
-        doc = Nokogiri::HTML(open("#{urls[index.to_i - 1]}"))
+        hrefs = UpcomingMovies::New_movies.all.collect {|movie| movie.href}
+        doc = Nokogiri::HTML(open(hrefs[index.to_i - 1]))
 
-        UpcomingMovies::New_movies.details({
-          title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
-          release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
-          synopsis: doc.search("p.mop__synopsis-content").text.strip
-          })
-      end
+
+      #     title = doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first
+      #     release_date = doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip
+      #     synopsis = doc.search("p.mop__synopsis-content").text.strip
+      #     UpcomingMovies::New_movies.details(title, release_date, synopsis)
+      # end
+
+
+        title = doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first
+        release_date = doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip
+        synopsis = doc.search("p.mop__synopsis-content").text.strip
+        UpcomingMovies::Movie_data.new(title, release_date, synopsis)
     end
+
+
+        # UpcomingMovies::Movie_data.details({
+        #   title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
+        #   release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
+        #   synopsis: doc.search("p.mop__synopsis-content").text.strip})
+
+  end
