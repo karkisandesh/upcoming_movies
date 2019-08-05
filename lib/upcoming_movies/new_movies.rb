@@ -24,16 +24,17 @@ class UpcomingMovies::New_movies
     @@all << self
   end
 
-  # def details(attributes)
-  #   attributes.each do |key, value|
-  #     self.send("#{key}=", value)
-  #   end
-  # end
+  def details(attributes)
+    attributes.each do |key, value|
+      self.send("#{key}=", value)
+    end
+  end
 
-  # def self.details
+  # def details
   #   @title = title
   #   @release_date = release_date
   #   @synopsis = synopsis
+  #   binding.pry
   # end
 
   # def self.details(title, release_date, synopsis)

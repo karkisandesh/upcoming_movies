@@ -9,7 +9,7 @@ class UpcomingMovies::Scraper
     movies.each do |movie|
       title = movie.text
       href = movie.attr("href")
-      @movie_data = UpcomingMovies::New_movies.new(title, href)
+      UpcomingMovies::New_movies.new(title, href)
     end
   end
 
@@ -23,22 +23,30 @@ class UpcomingMovies::Scraper
   # Nokogiri open movie.href
   # build a hash for synopsis and release_date
   # call movie.details(details_hash)
-    def scrape_details(index)
+    def scrape_details(selected_movie)
 
-      data = UpcomingMovies::New_movies.find(index)
-      doc = Nokogiri::HTML(open(data.href))
+      # data = UpcomingMovies::New_movies.find(index)
+      doc = Nokogiri::HTML(open(selected_movie.href))
+
+      selected_movie.details(
+      title: doc.search("h1").text.strip.split("\n").first,
+      release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
+      synopsis: doc.search("p.mop__synopsis-content").text.strip)
+      # selected_movie.save
+      # binding.pry
 
 
-          @movie_data.details({
-            title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
-            release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
-            synopsis: doc.search("p.mop__synopsis-content").text.strip})
 
-            UpcomingMovies::New_movies.new.details({
-              title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
-              release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
-              synopsis: doc.search("p.mop__synopsis-content").text.strip})
-            binding.pry
+          # @movie_data.details({
+          #   title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
+          #   release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
+          #   synopsis: doc.search("p.mop__synopsis-content").text.strip})
+
+            # UpcomingMovies::New_movies.new.details({
+            #   title: doc.search("h1.subnav__title.heading-style-1.heading-size-xl").text.strip.split("\n").first,
+            #   release_date: doc.search("ul.movie-details__detail li.movie-details__release-date").text.strip,
+            #   synopsis: doc.search("p.mop__synopsis-content").text.strip})
+            # binding.pry
 
 
 
