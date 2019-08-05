@@ -32,23 +32,36 @@ class UpcomingMovies::CLI
     puts "Please select a movie for details (1-8) or exit."
     input = gets.strip
     puts ""
-
-    if input.to_i > 0 && input.to_i <= @movies.count
-      movie_overview(input)
-    elsif input != "exit"
-        puts "Please select a movie for details (1-8) or exit."
-        input = gets.strip
-          if input != "exit"
-            select_movies
-          end
-      else
-        goodbye
-    end
+      while input !="exit"
+        if input.to_i > 0 && input.to_i <= @movies.count
+          movie_overview(input)
+        else
+          puts ""
+          puts "Please select a movie for details (1-8) or exit."
+          input = gets.strip
+        end
+      end
+      goodbye
   end
 
   def movie_overview(input)
+    # the user has selected one movie
+    # find that movie object in your New_movies
+
+    # selected_movie = UpcomingMovies::New_movies.find(input)
+
+  #  if selected_movie details don't exist yet
+    # call the scraper method scrape_details and pass the movie object
+    # Scraper.scrape_deatils(selected_movie)
+      # insice that method, collect the details, then call the INSTANCE method #details on the movie
+      # select_movies.details(details_hash)
+    # if the details for that movie object already have been scraped, show them
+    # otherwise, scrape them, then show them
+    # Only one movie class sholud exist
+    # Each movie will start out iwth a title and an href... then only  populate details
+    # for a movie when the user chooses it.
     UpcomingMovies::Scraper.new.scrape_details(input)
-        UpcomingMovies::Movie_data.all.each do |movie_data|
+        UpcomingMovies::New_movies.details.each do |movie_data|
           puts ""
           puts movie_data.title
           puts movie_data.release_date

@@ -1,8 +1,14 @@
 class UpcomingMovies::New_movies
 
-  attr_accessor :title_name, :href
+  #instance variable setter and getter methods
+  attr_accessor :title_name, :href, :title, :release_date, :synopsis
+
 
   @@all = []
+
+  def self.find(id)
+    @@all[id.to_i - 1]
+  end
 
   def initialize(title, href)
     @title_name = title
@@ -18,6 +24,12 @@ class UpcomingMovies::New_movies
     @@all << self
   end
 
+  # def details(attributes)
+  #   attributes.each do |key, value|
+  #     self.send("#{key}=", value)
+  #   end
+  # end
+
   # def self.details
   #   @title = title
   #   @release_date = release_date
@@ -30,11 +42,7 @@ class UpcomingMovies::New_movies
   #   @synopsis = synopsis
   # end
 
-  # def self.details(attributes)
-  #   attributes.each do |key, value|
-  #     self.send("#{key}=", value)
-  #   end
-  # end
+
 
 
 end
